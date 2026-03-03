@@ -1,6 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Cinemachine; 
 
 public class PlayerController : NetworkBehaviour
 {
@@ -18,6 +19,7 @@ public class PlayerController : NetworkBehaviour
         if (!IsOwner)
         {
             playerCamera.enabled = false;
+            //GetComponentInChildren<CinemachineBrain>().enabled = false;
         }
 
         Cursor.lockState = CursorLockMode.Locked;
