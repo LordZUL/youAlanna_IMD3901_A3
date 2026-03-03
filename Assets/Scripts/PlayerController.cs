@@ -1,26 +1,44 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
     public float speed = 5f;
     public float mouseSensitivity = 2f;
 
     public CharacterController controller;
     public Transform cameraTransform;
-
+    public Camera playerCamera;
     float xRotation = 0f;
+
+    public override void OnNetworkSpawn()
+    {
+
+        if (!IsOwner)
+        {
+            playerCamera.enabled = false;
+        }
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    /*void Start()
     {
         // cursor is locked so you can rotate using mouse movement
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-    }
+    }*/
 
     // Update is called once per frame
     void Update()
     {
+        if (!IsOwner)
+        {
+            return;
+        }
         // awsd for movement
         Vector2 moveInput = Keyboard.current != null ? new Vector2
             (
